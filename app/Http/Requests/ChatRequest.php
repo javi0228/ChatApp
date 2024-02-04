@@ -21,8 +21,15 @@ class ChatRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name'=>'required|max:255|unique:chat_rooms'
-        ];
+        $chat = $this->route('chat');
+        return $chat ?
+            [
+                'name' => "required|max:255|unique:chat_rooms,name,$chat->id",
+                'description' => 'sometimes',
+            ] :
+            [
+                'name' => 'required|max:255|unique:chat_rooms',
+                'description' => 'sometimes',
+            ];
     }
 }

@@ -11,16 +11,29 @@ class ChatRoom extends Model
 
     protected $fillable = [
         'name',
+        'description',
         'user_id',
     ];
+
+    protected $with = ['image', 'users'];
 
     public function admin()
     {
         return $this->belongsTo(User::class);
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
     public function messages()
     {
         return $this->hasMany(ChatMessage::class);
+    }
+
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
     }
 }

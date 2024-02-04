@@ -17,7 +17,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -35,8 +35,12 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::get('/chats',[ChatRoomController::class,'index'])->name('chat.index');
-    Route::post('/chat',[ChatRoomController::class,'store'])->name('chat.store');
-    Route::get('/messages/{chat_room}',[ChatRoomController::class,'messages'])->name('chat.messages.index');
-    Route::post('/message',[ChatRoomController::class,'store_message'])->name('chat.message.store');
+    // Chat routes
+    Route::get('/chats', [ChatRoomController::class, 'index'])->name('chat.index');
+    Route::post('/chat', [ChatRoomController::class, 'store'])->name('chat.store');
+    Route::post('/chat/{chat}', [ChatRoomController::class, 'update'])->name('chat.update');
+    Route::delete('/chat/image/{chat}', [ChatRoomController::class, 'delete_image'])->name('chat.image.delete');
+    Route::post('/chat/image/{chat}', [ChatRoomController::class, 'store_image'])->name('chat.image.store');
+    Route::get('/messages/{chat}', [ChatRoomController::class, 'messages'])->name('chat.messages.index');
+    Route::post('/message', [ChatRoomController::class, 'store_message'])->name('chat.message.store');
 });

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
-
-const emits = defineEmits(["sendMessage"]);
+defineProps(["modelValue"]);
+const emits = defineEmits(["update:modelValue", "sendMessage"]);
 
 const message = ref("");
 
@@ -15,9 +15,10 @@ const send = () => {
   <div class="w-full relative p-1">
     <input
       @keydown.enter="send()"
+      placeholder="..."
       autofocus
-      @input="message = $event.target.value"
-      :value="message"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
       class="w-full rounded dark:bg-gray-700 dark:text-gray-300 border-none focus:outline-none focus:ring-1 focus:ring-indigo-500"
       type="text"
     />
